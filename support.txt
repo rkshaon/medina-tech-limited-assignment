@@ -1,0 +1,16 @@
+User Registration
+{
+    "name": "Rezaul Karim Shaon",
+    "username": "rkshaon",
+    "email": "rkshaon.ist@gmail.com",
+    "password": "12345678",
+    "role": "Customer"
+}
+
+{
+    "name": "Touhidul Islam Hasib",
+    "username": "hasib",
+    "email": "hasib@gmail.com",
+    "password": "12345678",
+    "role": "3"
+}
