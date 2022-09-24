@@ -57,3 +57,13 @@ Weather Type
     "lowest_temp": "20",
     "hightest_temp": "29"
 }
+{
+    "name": "Cold",
+    "lowest_temp": "-100",
+    "hightest_temp": "20"
+}
+
+Weather Type Update
+{
+    "lowest_temp": "21"
+}
