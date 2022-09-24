@@ -11,4 +11,4 @@ class Product(models.Model):
     added_date_time = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return str(self.name) + " " + str(self.added_by)
+        return str(self.name) + " - " + str(self.added_by)
