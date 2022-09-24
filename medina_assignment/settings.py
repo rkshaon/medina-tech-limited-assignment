@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'user_api',
     'product_api',
+    'weather_api',
 ]
 
 MIDDLEWARE = [
