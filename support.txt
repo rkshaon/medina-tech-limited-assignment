@@ -4,13 +4,25 @@ User Registration
     "username": "rkshaon",
     "email": "rkshaon.ist@gmail.com",
     "password": "12345678",
-    "role": "Customer"
+    "role": "1"
 }
-
+{
+    "name": "Joy",
+    "username": "joy",
+    "email": "joy@gmail.com",
+    "password": "1234567",
+    "role": "2"
+}
 {
     "name": "Touhidul Islam Hasib",
     "username": "hasib",
     "email": "hasib@gmail.com",
     "password": "12345678",
     "role": "3"
+}
+
+Login
+{
+    "credential": "rkshaon",
+    "password": "12345678"
 }
