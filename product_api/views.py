@@ -1,7 +1,9 @@
-from itertools import product
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+
+import os
+import requests
 
 from medina_assignment.utility import auth_user
 
@@ -134,6 +136,40 @@ def delete_product(request, pk):
 
     return Response({
         'status': True,
+    })
+
+
+@api_view(['GET'])
+def recommended_product(request):
+    user = auth_user(request)
+    WEATHER_API_URL = os.environ['OPEN_WEATHER_API_URL']
+    WEATHER_API_KEY = os.environ['OPEN_WEATHER_API_KEY']
+    LOCATION = 'dhaka'
+
+    URL = WEATHER_API_URL + 'weather?q=' + str(LOCATION) + '&units=metric&APPID=' + WEATHER_API_KEY
+
+    req = requests.get(URL)
+
+    WEATHER_DATA = req.json()
+
+    if user.role != 3:
+        return Response({
+            'status': False,
+            'message': 'Only customers can view products!'
+        }, status=status.HTTP_403_FORBIDDEN)
+
+    data = []
+    data = {
+        'url': WEATHER_API_URL,
+        'key': WEATHER_API_KEY,
+        'location': LOCATION,
+        'weather-url': URL,
+        'weather-data': WEATHER_DATA,
+    }
+
+    return Response({
+        'status': True,
+        'data': data,
     })
 
 
