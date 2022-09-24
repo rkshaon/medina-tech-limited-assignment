@@ -52,3 +52,8 @@ Weather Type
     "lowest_temp": "30",
     "hightest_temp": "100"
 }
+{
+    "name": "Normal",
+    "lowest_temp": "20",
+    "hightest_temp": "29"
+}

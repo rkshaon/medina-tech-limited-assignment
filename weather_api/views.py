@@ -23,6 +23,34 @@ def get_all_weather_type(request):
     })
 
 
+@api_view(['POST'])
+def add_weather_type(request):
+    user = auth_user(request)
+
+    if user.role != 1:
+        return Response({
+            'status': False,
+            'message': 'You are not allowed to add weather type!'
+        }, status=status.HTTP_403_FORBIDDEN)
+    
+    weather_type_data = request.data.copy()
+    weather_type_data['added_by'] = user.id
+
+    weather_type_serializer = WeatherTypeSerializer(data=weather_type_data)
+
+    if weather_type_serializer.is_valid():
+        weather_type_serializer.save()
+
+        return Response({
+            'status': True,
+        }, status=status.HTTP_201_CREATED)
+    else:
+        return Response({
+            'status': False,
+            'message': str(weather_type_serializer.errors())
+        }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
+
 def get_weather_type(request, pk):
     user = auth_user(request)
 
