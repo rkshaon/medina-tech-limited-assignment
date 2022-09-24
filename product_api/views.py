@@ -2,6 +2,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
+from ip2geotools.databases.noncommercial import DbIpCity
+
 import os
 import requests
 
@@ -142,8 +144,18 @@ def delete_product(request, pk):
 @api_view(['GET'])
 def recommended_product(request):
     user = auth_user(request)
+    
+    if user.role != 3:
+        return Response({
+            'status': False,
+            'message': 'Only customers can view products!'
+        }, status=status.HTTP_403_FORBIDDEN)
+    
     WEATHER_API_URL = os.environ['OPEN_WEATHER_API_URL']
     WEATHER_API_KEY = os.environ['OPEN_WEATHER_API_KEY']
+
+    # get user's ip
+    # then get user's locatoin
     LOCATION = 'dhaka'
 
     URL = WEATHER_API_URL + 'weather?q=' + str(LOCATION) + '&units=metric&APPID=' + WEATHER_API_KEY
@@ -152,11 +164,10 @@ def recommended_product(request):
 
     WEATHER_DATA = req.json()
 
-    if user.role != 3:
-        return Response({
-            'status': False,
-            'message': 'Only customers can view products!'
-        }, status=status.HTTP_403_FORBIDDEN)
+    # get temparature
+    # then find out all weather type range fits in current temperature
+    # then filter all products with that/those weather types
+    # return
 
     data = []
     data = {
