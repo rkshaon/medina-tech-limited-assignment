@@ -104,3 +104,17 @@ def user_profile(request):
         'status': True,
         'data': data,
     })
+
+
+@api_view(['POST'])
+def user_logout(request):
+    response = Response()
+
+    response.delete_cookie('token')
+
+    response.data = {
+        'status': True,
+        'message': 'logout success'
+    }
+
+    return response
