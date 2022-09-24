@@ -55,6 +55,9 @@ Add Product Type to Product
 {
     "product_type": "3"
 }
+{
+    "product_type": "NULL"
+}
 
 Weather Type
 {

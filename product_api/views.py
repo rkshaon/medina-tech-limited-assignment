@@ -80,8 +80,7 @@ def update_product(request, pk):
             'status': False,
             'message': 'Product does not found!'
         }, status=status.HTTP_404_NOT_FOUND)
-    # print(product.added_by.id)
-    # print(user.role)
+        
     if product.added_by.id != user.id and user.role !=1:
         return Response({
             'status': False,
@@ -98,9 +97,11 @@ def update_product(request, pk):
     
     if user.role == 1:
         if 'product_type' in data:
-            weather_type = WeatherType.objects.get(id=data['product_type'])
-            # product.product_type = data['product_type']
-            product.product_type = weather_type
+            if data['product_type'] == 'NULL':
+                product.product_type = None
+            else:
+                weather_type = WeatherType.objects.get(id=data['product_type'])
+                product.product_type = weather_type
         
         product.edited_by = user
     
