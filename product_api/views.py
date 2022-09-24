@@ -24,7 +24,6 @@ def get_all_product(request):
 @api_view(['POST'])
 def add_product(request):
     user = auth_user(request)
-    print(user.role)
 
     if user.role != 2:
         return Response({
