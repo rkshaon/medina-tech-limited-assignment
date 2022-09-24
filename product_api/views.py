@@ -49,7 +49,6 @@ def add_product(request):
         }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 
-@api_view(['GET'])
 def get_product(request, pk):
     user = auth_user(request)
 
@@ -60,7 +59,7 @@ def get_product(request, pk):
             'status': False,
             'message': 'Product does not found!'
         }, status=status.HTTP_404_NOT_FOUND)
-        
+
     product_serializer = ProductSerializer(product, many=False)
     data = product_serializer.data
 
@@ -68,3 +67,39 @@ def get_product(request, pk):
         'status': True,
         'data': data,
     })
+
+
+def delete_product(request, pk):
+    user = auth_user(request)
+
+    try:
+        product = Product.objects.get(id=pk)
+    except Exception as e:
+        return Response({
+            'status': False,
+            'message': 'Product does not found!'
+        }, status=status.HTTP_404_NOT_FOUND)
+    
+    if product.added_by.id != user.id:
+        return Response({
+            'status': False,
+            'message': 'You are not authorized to delete this product!'
+        }, status=status.HTTP_401_UNAUTHORIZED)
+    
+    product.is_deleted = True
+    product.save()
+
+    return Response({
+        'status': True,
+    })
+
+
+PRODUCT_GET_OR_UPDATE_OR_DELETE = {
+    'GET': get_product,
+    'DELETE': delete_product,
+}
+
+
+@api_view(['GET', 'DELETE'])
+def handle_product_get_or_update_or_delete(request, pk):
+    return PRODUCT_GET_OR_UPDATE_OR_DELETE[request.method](request, pk)
