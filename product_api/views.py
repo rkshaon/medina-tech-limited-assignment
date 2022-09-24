@@ -69,11 +69,43 @@ def get_product(request, pk):
     })
 
 
+def update_product(request, pk):
+    user = auth_user(request)
+
+    try:
+        product = Product.objects.get(id=pk, is_deleted=False)
+    except Exception as e:
+        return Response({
+            'status': False,
+            'message': 'Product does not found!'
+        }, status=status.HTTP_404_NOT_FOUND)
+    
+    if product.added_by.id != user.id:
+        return Response({
+            'status': False,
+            'message': 'You are not authorized to update this product!'
+        }, status=status.HTTP_401_UNAUTHORIZED)
+    
+    data = request.data.copy()
+    print('data: ', data)
+
+    if 'name' in data:
+        product.name = data['name']
+    if 'quantity' in data:
+        product.quantity = data['quantity']
+    
+    product.save()
+    
+    return Response({
+        'status': True,
+    })
+
+
 def delete_product(request, pk):
     user = auth_user(request)
 
     try:
-        product = Product.objects.get(id=pk)
+        product = Product.objects.get(id=pk, is_deleted=False)
     except Exception as e:
         return Response({
             'status': False,
@@ -97,9 +129,10 @@ def delete_product(request, pk):
 PRODUCT_GET_OR_UPDATE_OR_DELETE = {
     'GET': get_product,
     'DELETE': delete_product,
+    'PUT': update_product,
 }
 
 
-@api_view(['GET', 'DELETE'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def handle_product_get_or_update_or_delete(request, pk):
     return PRODUCT_GET_OR_UPDATE_OR_DELETE[request.method](request, pk)
