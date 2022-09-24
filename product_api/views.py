@@ -12,7 +12,7 @@ from product_api.serializers import ProductSerializer
 
 @api_view(['GET'])
 def get_all_product(request):
-    products = Product.objects.all()
+    products = Product.objects.filter(is_deleted=False)
     product_serializer = ProductSerializer(products, many=True)
     data = product_serializer.data
 
@@ -53,7 +53,7 @@ def get_product(request, pk):
     user = auth_user(request)
 
     try:
-        product = Product.objects.get(id=pk)
+        product = Product.objects.get(id=pk, is_deleted=False)
     except Exception as e:
         return Response({
             'status': False,
