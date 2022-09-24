@@ -47,3 +47,24 @@ def add_product(request):
         return Response({
             'status': False
         }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
+
+@api_view(['GET'])
+def get_product(request, pk):
+    user = auth_user(request)
+
+    try:
+        product = Product.objects.get(id=pk)
+    except Exception as e:
+        return Response({
+            'status': False,
+            'message': 'Product does not found!'
+        }, status=status.HTTP_404_NOT_FOUND)
+        
+    product_serializer = ProductSerializer(product, many=False)
+    data = product_serializer.data
+
+    return Response({
+        'status': True,
+        'data': data,
+    })
