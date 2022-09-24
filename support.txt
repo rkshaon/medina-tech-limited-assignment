@@ -45,3 +45,10 @@ Login
     "credential": "rakib.shayan",
     "password": "12345678"
 }
+
+Weather Type
+{
+    "name": "Hot",
+    "lowest_temp": "30",
+    "hightest_temp": "100"
+}

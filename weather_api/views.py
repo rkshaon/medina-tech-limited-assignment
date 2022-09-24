@@ -43,6 +43,39 @@ def get_weather_type(request, pk):
     })
 
 
+def update_weather_type(request, pk):
+    user = auth_user(request)
+
+    try:
+        weather_type = WeatherType.objects.get(id=pk, is_deleted=False)
+    except Exception as e:
+        return Response({
+            'status': False,
+            'message': 'Weather type does not found!'
+        }, status=status.HTTP_404_NOT_FOUND)
+    
+    if weather_type.added_by.id != user.id:
+        return Response({
+            'status': False,
+            'message': 'You are not authorized to update this weather type!'
+        }, status=status.HTTP_401_UNAUTHORIZED)
+    
+    data = request.data.copy()
+
+    if 'name' in data:
+        weather_type.name = data['name']
+    if 'lowest_temp' in data:
+        weather_type.lowest_temp = data['lowest_temp']
+    if 'hightest_temp' in data:
+        weather_type.hightest_temp = data['hightest_temp']
+    
+    weather_type.save()
+    
+    return Response({
+        'status': True,
+    })
+
+
 def delete_weather_type(request, pk):
     user = auth_user(request)
 
@@ -70,8 +103,8 @@ def delete_weather_type(request, pk):
 
 WEATHER_TYPE_GET_OR_UPDATE_OR_DELETE = {
     'GET': get_weather_type,
-    'DELETE': delete_weather_type,
-    # 'PUT': update_product,
+    'PUT': update_weather_type,
+    'DELETE': delete_weather_type,    
 }
 
 

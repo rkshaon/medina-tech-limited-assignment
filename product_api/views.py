@@ -128,8 +128,8 @@ def delete_product(request, pk):
 
 PRODUCT_GET_OR_UPDATE_OR_DELETE = {
     'GET': get_product,
-    'DELETE': delete_product,
     'PUT': update_product,
+    'DELETE': delete_product,
 }
 
 
