@@ -20,6 +20,13 @@ User Registration
     "password": "12345678",
     "role": "3"
 }
+{
+    "name": "Rakib Hasan Shayan",
+    "username": "rakib.shayan",
+    "email": "rakib.shayan@gmail.com",
+    "password": "12345678",
+    "role": "3"
+}
 
 Login
 {
@@ -28,5 +35,9 @@ Login
 }
 {
     "credential": "rkshaon.ist@gmail.com",
+    "password": "12345678"
+}
+{
+    "credential": "rakib.shayan",
     "password": "12345678"
 }

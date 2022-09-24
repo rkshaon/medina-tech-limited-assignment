@@ -95,8 +95,7 @@ def user_login(request):
 @api_view(['GET'])
 def user_profile(request):
     user = auth_user(request)
-
-    # user_serializer = UserProfileSerializer(user)
+    
     user_serializer = UserSerializer(user)
     data = user_serializer.data
 
