@@ -6,6 +6,7 @@ from rest_framework import status
 from medina_assignment.utility import auth_user
 
 from product_api.models import Product
+from weather_api.models import WeatherType
 
 from product_api.serializers import ProductSerializer
 
@@ -50,7 +51,7 @@ def add_product(request):
 
 
 def get_product(request, pk):
-    user = auth_user(request)
+    # user = auth_user(request)
 
     try:
         product = Product.objects.get(id=pk, is_deleted=False)
@@ -79,20 +80,29 @@ def update_product(request, pk):
             'status': False,
             'message': 'Product does not found!'
         }, status=status.HTTP_404_NOT_FOUND)
-    
-    if product.added_by.id != user.id:
+    # print(product.added_by.id)
+    # print(user.role)
+    if product.added_by.id != user.id and user.role !=1:
         return Response({
             'status': False,
             'message': 'You are not authorized to update this product!'
         }, status=status.HTTP_401_UNAUTHORIZED)
     
     data = request.data.copy()
-    print('data: ', data)
 
-    if 'name' in data:
-        product.name = data['name']
-    if 'quantity' in data:
-        product.quantity = data['quantity']
+    if product.added_by.id == user.id:
+        if 'name' in data:
+            product.name = data['name']
+        if 'quantity' in data:
+            product.quantity = data['quantity']
+    
+    if user.role == 1:
+        if 'product_type' in data:
+            weather_type = WeatherType.objects.get(id=data['product_type'])
+            # product.product_type = data['product_type']
+            product.product_type = weather_type
+        
+        product.edited_by = user
     
     product.save()
     

@@ -46,6 +46,16 @@ Login
     "password": "12345678"
 }
 
+Product
+{
+    "name": "Regular Medium Full Sleeve Mens Designer Casual Jacket"
+}
+
+Add Product Type to Product
+{
+    "product_type": "3"
+}
+
 Weather Type
 {
     "name": "Hot",
