@@ -1,3 +1,4 @@
+from itertools import product
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -30,7 +31,19 @@ def add_product(request):
             'status': False,
             'message': 'You are not allowed to add product!'
         }, status=status.HTTP_403_FORBIDDEN)
+    
+    product_data = request.data.copy()
+    product_data['added_by'] = user.id
 
-    return Response({
-        'status': True,
-    })
+    product_serializer = ProductSerializer(data=product_data)
+
+    if product_serializer.is_valid():
+        product_serializer.save()
+
+        return Response({
+            'status': True,
+        }, status=status.HTTP_201_CREATED)
+    else:
+        return Response({
+            'status': False
+        }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
