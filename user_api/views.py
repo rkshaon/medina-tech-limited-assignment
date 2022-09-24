@@ -5,6 +5,8 @@ from rest_framework import status
 import datetime
 import jwt
 
+from medina_assignment.utility import auth_user
+
 from user_api.models import User
 
 from user_api.serializers import UserSerializer
@@ -84,12 +86,21 @@ def user_login(request):
         'status': True,
         'data': {
             'token': token,
-            # 'email': user.email,
-            # 'username': user.username,
-            # 'first_name': user.first_name,
-            # 'last_name': user.last_name,
-            # 'id': user.id,
         },
     }
 
     return response
+
+
+@api_view(['GET'])
+def user_profile(request):
+    user = auth_user(request)
+
+    # user_serializer = UserProfileSerializer(user)
+    user_serializer = UserSerializer(user)
+    data = user_serializer.data
+
+    return Response({
+        'status': True,
+        'data': data,
+    })

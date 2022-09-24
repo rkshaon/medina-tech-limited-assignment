@@ -6,4 +6,5 @@ from user_api import views
 urlpatterns = [
     path('registration', views.user_registration),
     path('login', views.user_login),
+    path('profile', views.user_profile),
 ]

@@ -26,3 +26,7 @@ Login
     "credential": "rkshaon",
     "password": "12345678"
 }
+{
+    "credential": "rkshaon.ist@gmail.com",
+    "password": "12345678"
+}
