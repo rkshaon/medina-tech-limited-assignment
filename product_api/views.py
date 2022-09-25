@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
+from ipware import get_client_ip
 from ip2geotools.databases.noncommercial import DbIpCity
 
 import os
@@ -156,6 +157,8 @@ def recommended_product(request):
 
     # get user's ip
     # then get user's locatoin
+    client_ip, is_routable = get_client_ip(request)
+    print(client_ip, is_routable)
     LOCATION = 'dhaka'
 
     URL = WEATHER_API_URL + 'weather?q=' + str(LOCATION) + '&units=metric&APPID=' + WEATHER_API_KEY
@@ -164,6 +167,7 @@ def recommended_product(request):
 
     WEATHER_DATA = req.json()
 
+    # get current location
     # get temparature
     # then find out all weather type range fits in current temperature
     # then filter all products with that/those weather types
