@@ -13,13 +13,32 @@ from medina_assignment.utility import auth_user
 from product_api.models import Product
 from weather_api.models import WeatherType
 
+from product_api.filters import ProductFilter
+
 from product_api.serializers import ProductSerializer
 
 
 @api_view(['GET'])
 def get_all_product(request):
-    products = Product.objects.filter(is_deleted=False)
+    user = auth_user(request)
+    products = []
+    data = []
+    print(request.GET)
+
+    if 'weather' in request.GET or 'name' in request.GET:
+        print('query-param-exist')        
+        # products = ProductFilter('stylish', queryset=Product.objects.all())
+        # print(products)
+        # filterset = ProductFilter(request.GET, queryset=Product.objects.all())
+        # filterset = ProductFilter(request.GET, queryset=Product.objects.all())
+        # if filterset.is_valid():
+        #     # queryset = filterset.qs
+        #     products = filterset.qs
+    else:
+        products = Product.objects.filter(is_deleted=False)
+    
     product_serializer = ProductSerializer(products, many=True)
+    
     data = product_serializer.data
 
     return Response({
