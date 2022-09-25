@@ -154,33 +154,49 @@ def recommended_product(request):
     
     WEATHER_API_URL = os.environ['OPEN_WEATHER_API_URL']
     WEATHER_API_KEY = os.environ['OPEN_WEATHER_API_KEY']
-
-    # get user's ip
-    # then get user's locatoin
+    
     client_ip, is_routable = get_client_ip(request)
-    print(client_ip, is_routable)
+    
+    if client_ip is None:
+        client_ip = '0.0.0.0'
+    
+    try:
+        response = DbIpCity.get(client_ip, api_key='free')
+        city = response.city
+    except Exception as e:
+        city = 'Unknown'
+    
+    if city is None:
+        city = 'Unknown'
+        
     LOCATION = 'dhaka'
+    LOCATION = city
 
     URL = WEATHER_API_URL + 'weather?q=' + str(LOCATION) + '&units=metric&APPID=' + WEATHER_API_KEY
 
     req = requests.get(URL)
 
     WEATHER_DATA = req.json()
+    
+    TYPE = WEATHER_DATA['weather'][0]['main']
+    TEMP = WEATHER_DATA['main']['temp']
 
-    # get current location
-    # get temparature
-    # then find out all weather type range fits in current temperature
-    # then filter all products with that/those weather types
-    # return
+    weathers = WeatherType.objects.filter(lowest_temp__lte = TEMP, hightest_temp__gt = TEMP)
+    weather = WeatherType.objects.filter(name=TYPE)
 
-    data = []
-    data = {
-        'url': WEATHER_API_URL,
-        'key': WEATHER_API_KEY,
-        'location': LOCATION,
-        'weather-url': URL,
-        'weather-data': WEATHER_DATA,
-    }
+    weather_list = set(weathers)
+
+    for w in weather:
+        weather_list.add(w)
+        
+    product_list = []
+
+    for weather in weather_list:
+        product = Product.objects.filter(product_type=weather)
+        product_list.extend(product)
+    
+    product_serializer = ProductSerializer(product_list, many=True)
+    data = product_serializer.data
 
     return Response({
         'status': True,
