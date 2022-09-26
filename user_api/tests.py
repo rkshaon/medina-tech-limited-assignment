@@ -3,17 +3,24 @@ from django.test import SimpleTestCase
 from django.urls import reverse, resolve
 
 from user_api.views import user_registration
+from user_api.views import user_login
+from user_api.views import user_logout
+from user_api.views import user_profile
 
 
 class TestUrls(SimpleTestCase):
-    def test_list_url_is_resolved(self):
-        # assert 1 == 2
+    def test_registration_url_resolves(self):
         url = reverse('registration')
         self.assertEquals(resolve(url).func, user_registration)
-        # print(resolve(url))
+    
+    def test_login_url_resolves(self):
         url = reverse('login')
-        # print(resolve(url))
+        self.assertEquals(resolve(url).func, user_login)
+    
+    def test_logout_url_resolves(self):
         url = reverse('logout')
-        # print(resolve(url))
+        self.assertEquals(resolve(url).func, user_logout)
+
+    def test_profile_url_resolves(self):
         url = reverse('profile')
-        # print(resolve(url))
+        self.assertEquals(resolve(url).func, user_profile)
