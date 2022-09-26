@@ -26,7 +26,20 @@ def get_all_product(request):
     print(request.GET)
 
     if 'weather' in request.GET or 'name' in request.GET:
-        print('query-param-exist')        
+        print('query-param-exist')
+        if 'name' in request.GET:
+            print('query-name-exist')
+            # products_name_query = Product.objects.filter(name__in = request.GET['name'])
+            products_name_query = Product.objects.filter(name__contains = request.GET['name'])
+            print(products_name_query)
+            products.extend(products_name_query)
+        
+        if 'weather' in request.GET:
+            print('query-weather-exists')
+            products_weather_query = Product.objects.filter(product_type__name__contains = request.GET['weather'])
+            print(products_weather_query)
+            products.extend(products_weather_query)
+            # weathers = WeatherType.objects.filter()
         # products = ProductFilter('stylish', queryset=Product.objects.all())
         # print(products)
         # filterset = ProductFilter(request.GET, queryset=Product.objects.all())
