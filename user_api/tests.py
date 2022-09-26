@@ -1,6 +1,10 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
+
+import json
+
+from user_api.models import User
 
 from user_api.views import user_registration
 from user_api.views import user_login
@@ -24,3 +28,20 @@ class TestUrls(SimpleTestCase):
     def test_profile_url_resolves(self):
         url = reverse('profile')
         self.assertEquals(resolve(url).func, user_profile)
+
+
+class TestViews(TestCase):
+    # def test_registration_view_POST(self):
+    #     pass
+
+    # def test_login_view_POST(self):
+    #     pass
+
+    # def test_logout_view_POST(self):
+    #     pass
+
+    def test_profile_view_GET(self):
+        client = Client()
+        response = client.get(reverse('profile'))
+
+        self.assertEquals(response.status_code, 200)
