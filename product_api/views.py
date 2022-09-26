@@ -13,8 +13,6 @@ from medina_assignment.utility import auth_user
 from product_api.models import Product
 from weather_api.models import WeatherType
 
-from product_api.filters import ProductFilter
-
 from product_api.serializers import ProductSerializer
 
 
@@ -23,30 +21,15 @@ def get_all_product(request):
     user = auth_user(request)
     products = []
     data = []
-    print(request.GET)
 
-    if 'weather' in request.GET or 'name' in request.GET:
-        print('query-param-exist')
+    if 'weather' in request.GET or 'name' in request.GET:        
         if 'name' in request.GET:
-            print('query-name-exist')
-            # products_name_query = Product.objects.filter(name__in = request.GET['name'])
-            products_name_query = Product.objects.filter(name__contains = request.GET['name'])
-            print(products_name_query)
+            products_name_query = Product.objects.filter(name__contains = request.GET['name'])            
             products.extend(products_name_query)
         
         if 'weather' in request.GET:
-            print('query-weather-exists')
-            products_weather_query = Product.objects.filter(product_type__name__contains = request.GET['weather'])
-            print(products_weather_query)
+            products_weather_query = Product.objects.filter(product_type__name__contains = request.GET['weather'])            
             products.extend(products_weather_query)
-            # weathers = WeatherType.objects.filter()
-        # products = ProductFilter('stylish', queryset=Product.objects.all())
-        # print(products)
-        # filterset = ProductFilter(request.GET, queryset=Product.objects.all())
-        # filterset = ProductFilter(request.GET, queryset=Product.objects.all())
-        # if filterset.is_valid():
-        #     # queryset = filterset.qs
-        #     products = filterset.qs
     else:
         products = Product.objects.filter(is_deleted=False)
     
@@ -88,7 +71,7 @@ def add_product(request):
 
 
 def get_product(request, pk):
-    # user = auth_user(request)
+    user = auth_user(request)
 
     try:
         product = Product.objects.get(id=pk, is_deleted=False)
