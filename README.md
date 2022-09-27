@@ -6,11 +6,14 @@ Clone the project\
 Change directory\
 `cd medina-tech-limited-assignment`
 
-Create virtual environment in Linux\
+Create virtual environment
 `python -m venv env`
 
 Activate virtual environment in Linux\
 `source env/bin/activate`
+
+Activate virtual environment in Windows\
+`env\Scripts\activate`
 
 Install dependency\
 `pip install -r requirements.txt`
