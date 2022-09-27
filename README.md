@@ -19,8 +19,9 @@ Run the server\
 `python manage.py runserver`
 
 ## APIs
-**Registration**
-*URL* : `http://127.0.0.1:8000/user/registration`\
+
+**Registration**\
+*URL* : `BASE-URL/user/registration`\
 *Method*: `POST`\
 *Data*:\
 Role 1 - Admin, 2 - Vendor, 3 - Customer\
@@ -30,5 +31,18 @@ Role 1 - Admin, 2 - Vendor, 3 - Customer\
     "email": "rkshaon.ist@gmail.com",
     "password": "12345678",
     "role": "1"
-}`
+}`\
+*Response*: you'll get a response message with status `True` or `False`
 
+**Login**\
+*URL* : `BASE-URL/user/login`\
+*Method*: `POST`\
+*Data*:\
+*Response*: you'll get a response message with a `Token`
+
+**Profile**\
+*URL* : `BASE-URL/user/profile`\
+*Method*: `GET`\
+*Data*: No data required\
+*Header*: You have to provide token\
+*Response*: you'll get a response message with a `Token`
