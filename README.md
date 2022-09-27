@@ -41,7 +41,7 @@ Role 1 - Admin, 2 - Vendor, 3 - Customer\
 `{
     "credential": "rkshaon",
     "password": "12345678"
-}`
+}`\
 *Response*: you'll get a response message with a `Token`
 
 **Logout**\
