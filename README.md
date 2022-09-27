@@ -9,7 +9,7 @@ Change directory\
 Create virtual environment
 `python -m venv env`
 
-Activate virtual environment in Linux\
+Activate virtual environment in Linux or MacOS\
 `source env/bin/activate`
 
 Activate virtual environment in Windows\
