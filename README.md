@@ -20,7 +20,9 @@ Run the server\
 
 ## APIs
 **Registration**
-Role 1 - Admin, 2 - Vendor, 3 - Customer
+*URL* : `http://127.0.0.1:8000/user/registration`
+*Method*: `POST`
+Role 1 - Admin, 2 - Vendor, 3 - Customer\
 `{
     "name": "Rezaul Karim Shaon",
     "username": "rkshaon",
@@ -28,3 +30,4 @@ Role 1 - Admin, 2 - Vendor, 3 - Customer
     "password": "12345678",
     "role": "1"
 }`
+
