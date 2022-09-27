@@ -72,7 +72,7 @@ Role 1 - Admin, 2 - Vendor, 3 - Customer\
     "name": "Hot",
     "lowest_temp": "30",
     "hightest_temp": "100"
-}`
+}`\
 *Header*: You have to provide token\
 *Response*: you'll get a response message with status `True` or `False`
 
@@ -81,7 +81,7 @@ Role 1 - Admin, 2 - Vendor, 3 - Customer\
 *Method*: `GET`\
 *Data*: No data required\
 *Header*: You have to provide token\
-*Response*: you'll get a response message with status `True` or `False`
+*Response*: you'll get a response weather type details
 
 **Edit Weather Type**\
 *URL* : `BASE-URL/weather/<id>`\
@@ -89,7 +89,7 @@ Role 1 - Admin, 2 - Vendor, 3 - Customer\
 *Data*:\
 `{
     "name": "Hot"
-}`
+}`\
 *Header*: You have to provide token\
 *Response*: you'll get a response message with status `True` or `False`
 
@@ -106,3 +106,54 @@ Role 1 - Admin, 2 - Vendor, 3 - Customer\
 *Data*: No data required\
 *Header*: You have to provide token\
 *Response*: you'll get a response with product list\
+
+**Add Product**\
+*URL* : `BASE-URL/product/add`\
+*Method*: `POST`\
+*Data*:\
+`{
+    "name": "Product Name",
+    "quantity": "100"
+}`\
+*File*: Attach an image file with name `image`\
+*Header*: You have to provide token\
+*Response*: you'll get a response message with status `True` or `False`
+
+**Get Weather Recommended Product**\
+*URL* : `BASE-URL/product/weather-recommended`\
+*Method*: `GET`\
+*Data*: No data required\
+*Header*: You have to provide token\
+*Response*: you'll get a response message with product details
+
+**Get Product**\
+*URL* : `BASE-URL/product/<id>`\
+*Method*: `GET`\
+*Data*: No data required\
+*Header*: You have to provide token\
+*Response*: you'll get a response message with product details
+
+**Edit Product**\
+*URL* : `BASE-URL/product/<id>`\
+*Method*: `PUT`\
+*Data*:\
+`{
+    "product_type": "3"
+}`\
+*Header*: You have to provide token\
+*Response*: you'll get a response message with status `True` or `False`
+
+**Delete Product**\
+*URL* : `BASE-URL/product/<id>`\
+*Method*: `DELETE`\
+*Data*: No data required\
+*Header*: You have to provide token\
+*Response*: you'll get a response message with status `True` or `False`
+
+**Search Products**\
+*URL* : `BASE-URL/product?name=some-product-name&weather=some-weather-type-name`\
+*Method*: `GET`\
+*Data*: No data required\
+*Header*: You have to provide token\
+*Response*: you'll get a response with product list\
+*Note*: You can provide both query parameter or any one - return result will be according to those parameters.
